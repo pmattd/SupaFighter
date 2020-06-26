@@ -4,73 +4,83 @@ import scala.util.Random
 
 class Combat() {
 
-  def loop[A](a: A, f: A => A, cond: A => Boolean) : A =
+  def loop[A](a: A, f: A => A, cond: A => Boolean): A =
     if (cond(a)) a else loop(f(a), f, cond)
 
-  def doCombat(partyA: Party, partyB : Party): Any ={
-    if (!(partyA.isOut || partyB.isOut)){
-      doTurn(partyA,partyB)
-    } else{
-      (partyA,partyB)
+  def doCombat(partyManger: CombatState) = {
+
+    if (!partyManger.combatOver()) {
+      doTurn(partyManger)
+    } else {
+      partyManger
     }
   }
 
-  def doTurn(partyA: Party, partyB : Party) : (Vector[Party],Vector[Party]) = {
-    val characters = partyA.members ++ partyB.members
-    val sequence = InitiativeSequence.defineOrder(characters, 0)
+  def doTurn(combatState: CombatState): CombatState = {
+    val activeCharacter = combatState.getActiveCharacter()
 
-    val activeCharacter = sequence.head._1
-
-    //choose attack
+    //this could be on character
     val selectedAction = AttackSelector.select(activeCharacter)
 
-    //choose target
-    val target = TargetSelector.select(getPartyOf(activeCharacter),selectedAction)
+    //select target
+    val target = TargetSelector.select(activeCharacter.party, combatState.participants, selectedAction)
 
+    //resolve the action
+    val updatedTarget = AttackResolver.resolve(target, selectedAction)
 
-    //resolve attack
-    //AttackResolver.resolve(target,selectedAction)
-  //  target.applyAction(selectedAction)
-
-    ()
+    //generate new state
+    combatState.updateState(updatedTarget)
   }
 
-  def getPartyOf(character: Character, parties : Seq[Party]) = {
-    val characterParty = parties.find(p => p.members.contains(character)).get
-    val otherParties
-
-  }
 
 }
 
-trait ApplyAction[T]{
-  def resolveAction(action: CombatAction, target : T)
+class CombatState(val participants: Seq[Character], val turn: Int) {
+
+  val initiativeSequence = InitiativeSequence.defineOrder(participants, turn)
+  val activeCharacter: Character = {initiativeSequence.head._1}
+
+  def combatOver(): Boolean = {
+    participants.filter(p => p.combatActive()).distinct.size == 1
+  }
+
+  def updateState(updatedCharacters: Seq[Character]): CombatState = {
+    val newParticipants = participants.map(c => updatedCharacters.find(_ == c).getOrElse(c))
+    new CombatState(newParticipants, initiativeSequence.head._2)
+  }
 }
 
-object PartyAction extends ApplyAction[Party]{
+/*
+trait ApplyAction[T] {
+  def resolveAction(action: CombatAction, target: T)
+}
+
+object PartyAction extends ApplyAction[Party] {
   override def resolveAction(action: CombatAction, target: Party): Unit = {
-//    target.map(action.)
+    //    target.map(action.)
   }
-}
+}*/
 
 
-object TargetSelector{
-  def select(characterParty : Vector[Character], enemyParty : Party, action: CombatAction): Character ={
-    enemyParty.members(enemyParty.members.size)
+object TargetSelector {
+  def select(characterParty: Party, participants: Seq[Character], action: CombatAction): Character = {
+    participants.find(p => !p.party.eq(characterParty)).get
+
   }
 }
 
 //could use a type class to add attack selector to the actual character
-object AttackSelector{
-  def select(character: Character): CombatAction ={
+object AttackSelector {
+  def select(character: Character): CombatAction = {
     character.actions(new Random().nextInt(character.actions.length))
   }
 }
 
 
-case class CombatAction(damage : Int){}
+case class CombatAction(damage: Int) {}
 
 trait StatusEffect
+
 object Dead extends StatusEffect
 
 

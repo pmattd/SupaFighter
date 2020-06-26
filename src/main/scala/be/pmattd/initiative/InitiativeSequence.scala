@@ -9,6 +9,4 @@ object InitiativeSequence{
       else None
     })
   }
-
-  def organizeCharacters(characters : Seq[Character]): Seq[Character] = characters
 }
