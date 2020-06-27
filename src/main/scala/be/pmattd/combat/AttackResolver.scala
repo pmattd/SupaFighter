@@ -1,4 +1,4 @@
-package be.pmattd.initiative
+package be.pmattd.combat
 
 object AttackResolver {
 

@@ -1,4 +1,4 @@
-package be.pmattd.initiative
+package be.pmattd.combat
 
 import scala.util.Random
 
@@ -13,7 +13,7 @@ case class Character(name: String,
     Character(name, initiative, actions, health - damage, statusEffects, party)
   }
 
-  def combatActive(): Boolean = {
+  def alive(): Boolean = {
     !statusEffects.contains(Dead)
   }
 
@@ -33,31 +33,28 @@ object Character {
 
 case class Party(name: String)
 
-object TargetSelector {
+
+trait TargetSelector {
+  def select(characterParty: Party, participants: Seq[Character]): Character
+}
+
+object BasicTargetSelector extends TargetSelector {
   def select(characterParty: Party, participants: Seq[Character]): Character = {
-    participants.find(p => !p.party.eq(characterParty)).get
+    participants
+      .filter(p => p.party != characterParty)
+      .filter(p => p.alive())
+      .head
   }
 }
 
 //could use a type class to add attack selector to the actual character
 object AttackSelector {
   def select(character: Character): CombatAction = {
+    if (character.actions.size < 1) {
+      throw new RuntimeException("Character has no actions!")
+    }
     character.actions(new Random().nextInt(character.actions.length))
   }
-
-
-  /*
-    def isOut() = {
-      members.exists(p => !p.statusEffects.contains(Dead))
-    }*/
-
-  /*
-    def replace(character: Character): Party ={
-      if(members.contains(character))
-        Party(members.updated(members.indexOf(character),character))
-      else
-        Party(members)
-    }*/
 
 }
 

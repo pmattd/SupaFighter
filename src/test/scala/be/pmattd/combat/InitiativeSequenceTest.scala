@@ -1,8 +1,8 @@
-package be.pmattd.initiative
+package be.pmattd.combat
 
 import org.scalatest.matchers.should.Matchers
 
-class InitiativeSequenceTest extends org.scalatest.FunSuite with Matchers{
+class InitiativeSequenceTest extends org.scalatest.FunSuite with Matchers {
 
   val bob = Character("bob", 2, Seq(), 5, Seq(), Party("A"))
   val sam = Character("sam", 2, Seq(), 5, Seq(), Party("B"))

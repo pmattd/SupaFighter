@@ -1,8 +1,8 @@
-package be.pmattd.initiative
+package be.pmattd.combat
 
 import org.scalatest.matchers.should.Matchers
 
-class CombatStateTest extends org.scalatest.FunSuite with Matchers{
+class CombatEncounterStateTest extends org.scalatest.FunSuite with Matchers {
   val partyA = Party("partyA")
   val bob = Character("bob", 2, Seq(), 11, Seq(), partyA)
   val sam = Character("sam", 4, Seq(), 11, Seq(), partyA)
