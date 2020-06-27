@@ -3,39 +3,40 @@ package be.pmattd.initiative
 import org.scalatest.matchers.should.Matchers
 
 class CombatStateTest extends org.scalatest.FunSuite with Matchers{
-  val partyA = Party()
-  val bob = Character("bob", 1, Seq(), 11, Seq(), partyA)
-  val sam = Character("sam", 3, Seq(), 11, Seq(), partyA)
-  val jim = Character("jim", 2, Seq(), 11, Seq(), Party())
+  val partyA = Party("partyA")
+  val bob = Character("bob", 2, Seq(), 11, Seq(), partyA)
+  val sam = Character("sam", 4, Seq(), 11, Seq(), partyA)
+  val jim = Character("jim", 3, Seq(), 11, Seq(), Party("B"))
 
-  test("combat over only one character"){
-    val state = new CombatState(Seq(bob),0)
-    state.getActiveCharacter() should equal(bob)
+
+  test("only one character left - combat over") {
+    val state = CombatState(Seq(bob))
     state.combatOver() should equal(true)
   }
 
-
-  test("combat not over two characters of different parties"){
-    val state = new CombatState(Seq(bob,jim),0)
-    state.getActiveCharacter() should equal(bob)
+  test("two characters of different parties - combat not over") {
+    val state = CombatState(Seq(bob, jim))
     state.combatOver() should equal(false)
   }
 
-
-  test("combat over only one party "){
-    val state = new CombatState(Seq(bob,sam),0)
+  test("only characters of one party - combat is over ") {
+    val state = CombatState(Seq(bob, sam))
     state.combatOver() should equal(true)
   }
 
+  test("bob is the first character in the initiative") {
+    val state = CombatState(Seq(bob, jim))
+    state.activeCharacter should equal(bob)
+  }
 
-  test("update combat next person in initiative queue"){
-
+  test("update combat next person in initiative queue") {
     val newJim = jim.copy(health = 5)
-    val state = new CombatState(Seq(bob,jim),0)
-    state.getActiveCharacter() should equal(bob)
-    val newState = state.updateState(Seq(bob,sam,newJim))
-    newState.getActiveCharacter() should equal(newJim)
-    newState.turn should equal(200)
+    val state = CombatState(Seq(bob, jim))
+    state.activeCharacter should equal(bob)
+    val newState = state.updateState(Seq((jim, newJim)))
+
+    newState.activeCharacter should equal(newJim)
+    newState.activeCharacter.health should equal(5)
   }
 
 }

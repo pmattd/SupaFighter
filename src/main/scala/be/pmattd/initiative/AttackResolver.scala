@@ -3,8 +3,8 @@ package be.pmattd.initiative
 object AttackResolver {
 
 
-  def resolve(target: Character,combatAction: CombatAction): Seq[Character] ={
-    Seq(target.applyAction(combatAction.damage))
+  def resolve(target: Character, combatAction: CombatAction): Seq[(Character, Character)] = {
+    Seq((target, target.applyAction(combatAction.damage)))
   }
 
 

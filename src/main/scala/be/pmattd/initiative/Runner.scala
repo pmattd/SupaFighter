@@ -2,7 +2,7 @@ package be.pmattd.initiative
 
 object Runner extends App{
 
-  val partyA = Party()
+  val partyA = Party("A")
 
   val bob = Character("bob",2,Seq(),5,Seq(),partyA)
   val jim = Character("jim",3,Seq(),5,Seq(),partyA)
