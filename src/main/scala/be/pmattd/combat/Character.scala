@@ -7,14 +7,19 @@ case class Character(name: String,
                      stats: Stats,
                      currentHealth: Int,
                      statusEffects: Seq[StatusEffect],
+                     targetSelector: TargetSelector,
                      party: Party) {
 
   def applyAction(damage: Int): Character = {
-    Character(name, actions, stats, currentHealth - damage, statusEffects, party)
+    Character(name, actions, stats, currentHealth - damage, statusEffects, targetSelector, party)
   }
 
   def alive(): Boolean = {
     !statusEffects.contains(Dead)
+  }
+
+  def selectTarget(potentialTargets: Seq[Character]): Character = {
+    targetSelector.select(party, potentialTargets)
   }
 
 }
@@ -25,16 +30,17 @@ object Character {
             stats: Stats,
             currentHealth: Int,
             statusEffects: Seq[StatusEffect],
+            targetSelector: TargetSelector,
             party: Party): Character = {
     val effects = if (currentHealth <= 0) statusEffects :+ Dead else statusEffects
-    new Character(name, actions, stats, currentHealth: Int, effects, party)
+    new Character(name, actions, stats, currentHealth: Int, effects, targetSelector, party)
   }
 
   def apply(name: String,
             actions: Seq[CombatAction],
             stats: Stats,
             party: Party): Character = {
-    new Character(name, actions, stats, stats.health: Int, Seq(), party)
+    new Character(name, actions, stats, stats.health: Int, Seq(), RandomTargetSelector, party)
   }
 }
 

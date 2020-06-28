@@ -17,7 +17,7 @@ object CombatEncounter {
     val selectedAction = AttackSelector.select(activeCharacter)
 
     //select target
-    val target = BasicTargetSelector.select(activeCharacter.party, combatState.participants)
+    val target = activeCharacter.selectTarget(combatState.participants)
 
     //resolve the action
     val updatedTargets = AttackResolver.resolve(target, selectedAction)

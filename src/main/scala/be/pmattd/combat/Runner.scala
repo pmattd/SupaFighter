@@ -9,10 +9,10 @@ object Runner extends App {
 
   val bob = Character("bob", Seq(attack1), Stats(5, 3), partyA)
   val jim = Character("jim", Seq(attack1), Stats(5, 4), partyA)
-  val gornag = Character("gornag", Seq(attack1), Stats(5, 4), partyB)
+  val gornag = Character("gornag", Seq(attack1), Stats(7, 4), partyB)
   val bilzomas = Character("bilzomas", Seq(attack1), Stats(5, 4), partyB)
 
-  val state = CombatState(Seq(bob, jim, gornag, bilzomas))
+  val state = CombatState(Seq(bob, gornag, jim, bilzomas))
   state.showInitiativeSequence().foreach(p => println(p._1.name, p._2))
 
   val result = CombatEncounter.resolve(state)
@@ -22,7 +22,6 @@ object Runner extends App {
 
   //todo
   /*
-    1. create a random target selector.
     2. create a character logic including attack selector and target selector, put this in the character class "decison"
     2. allow user input to select targets
     3. include new attacts - heal, area damage
