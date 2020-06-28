@@ -44,7 +44,7 @@ object Character {
   }
 }
 
-case class Stats(health: Int, initiative: Int)
+case class Stats(health: Int, initiative: Int, attack: Int = 50)
 
 case class Party(name: String)
 

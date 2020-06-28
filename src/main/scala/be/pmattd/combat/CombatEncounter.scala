@@ -13,17 +13,20 @@ object CombatEncounter {
   def doTurn(combatState: CombatState): CombatState = {
     val activeCharacter = combatState.activeCharacter
 
-    //this could be on character
+    //this should be on character
     val selectedAction = AttackSelector.select(activeCharacter)
 
     //select target
     val target = activeCharacter.selectTarget(combatState.participants)
 
-    //resolve the action
-    val updatedTargets = AttackResolver.resolve(target, selectedAction)
-
-    println(s"${activeCharacter.name} attacks ${target.name} for ${selectedAction.damage}")
-
+    //resolve the attack
+    val updatedTargets = if (AttackResolver.rollToHit(activeCharacter.stats.attack)) {
+      println(s"${activeCharacter.name} attacks ${target.name} for ${selectedAction.damage}")
+      AttackResolver.resolve(target, selectedAction)
+    } else {
+      println(s"${activeCharacter.name} attacks ${target.name} and misses!")
+      Seq[(Character, Character)]()
+    }
 
     //generate new state
     combatState.updateState(updatedTargets)
