@@ -1,7 +1,10 @@
 package be.pmattd.combat
 
+import scala.annotation.tailrec
+
 object CombatEncounter {
 
+  @tailrec
   def loop[A](a: A, f: A => A, cond: A => Boolean): A =
     if (cond(a)) a else loop(f(a), f, cond)
 
@@ -21,7 +24,7 @@ object CombatEncounter {
 
     //resolve the attack
     val updatedTargets = if (AttackResolver.rollToHit(activeCharacter.stats.attack)) {
-      println(s"${activeCharacter.name} attacks ${target.name} for ${selectedAction.damage}")
+      println(s"${activeCharacter.name} attacks ${target.name} ")
       AttackResolver.resolve(target, selectedAction)
     } else {
       println(s"${activeCharacter.name} attacks ${target.name} and misses!")

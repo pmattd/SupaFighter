@@ -10,8 +10,15 @@ case class Character(name: String,
                      targetSelector: TargetSelector,
                      party: Party) {
 
-  def applyAction(damage: Int): Character = {
-    Character(name, actions, stats, currentHealth - damage, statusEffects, targetSelector, party)
+
+  def applyDamage(damage: Int): Character = {
+    val reallyNewHealth = currentHealth - damage match {
+      case x if x > stats.maxHealth => stats.maxHealth
+      case x if x < 0 => 0
+      case x => x
+    }
+
+    Character(name, actions, stats, reallyNewHealth, statusEffects, targetSelector, party)
   }
 
   def alive(): Boolean = {
@@ -40,11 +47,11 @@ object Character {
             actions: Seq[CombatAction],
             stats: Stats,
             party: Party): Character = {
-    new Character(name, actions, stats, stats.health: Int, Seq(), RandomTargetSelector, party)
+    new Character(name, actions, stats, stats.maxHealth: Int, Seq(), RandomTargetSelector, party)
   }
 }
 
-case class Stats(health: Int, initiative: Int, attack: Int = 50)
+case class Stats(maxHealth: Int, initiative: Int, attack: Int = 50)
 
 case class Party(name: String)
 
@@ -57,13 +64,9 @@ object AttackSelector {
     }
     character.actions(new Random().nextInt(character.actions.length))
   }
-
 }
 
-case class CombatAction(damage: Int) {}
-
 trait StatusEffect
-
 object Dead extends StatusEffect
 
 

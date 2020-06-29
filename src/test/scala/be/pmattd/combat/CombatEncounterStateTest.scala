@@ -31,7 +31,7 @@ class CombatEncounterStateTest extends org.scalatest.FunSuite with Matchers {
     val newState = state.updateState(Seq((jim, newJim)))
 
     newState.activeCharacter should equal(newJim)
-    newState.activeCharacter.stats.health should equal(5)
+    newState.activeCharacter.stats.maxHealth should equal(5)
   }
 
 }
