@@ -22,10 +22,10 @@ object Runner extends App {
 
   //todo
   /*
+    1. add heal
     2. create a character logic including attack selector and target selector, put this in the character class "decison"
     2. allow user input to select targets
-    3. include new attacts - heal, area damage
-    4. make an attack characteristic out of 100.
+    3. include new attacks - area damage (multiple targets)
     5. include new attacks, boost attack, reduce attack
     6. dodge/defend.
    */
