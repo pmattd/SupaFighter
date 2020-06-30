@@ -1,15 +1,11 @@
 package be.pmattd.combat
 
-import scala.util.Random
-
 case class Character(name: String,
-                     actions: Seq[CombatAction],
                      stats: Stats,
                      currentHealth: Int,
                      statusEffects: Seq[StatusEffect],
-                     targetSelector: TargetSelector,
+                     actionLogic: ActionLogic,
                      party: Party) {
-
 
   def applyDamage(damage: Int): Character = {
     val reallyNewHealth = currentHealth - damage match {
@@ -18,53 +14,42 @@ case class Character(name: String,
       case x => x
     }
 
-    Character(name, actions, stats, reallyNewHealth, statusEffects, targetSelector, party)
+    Character(name, stats, reallyNewHealth, statusEffects, actionLogic, party)
   }
 
   def alive(): Boolean = {
     !statusEffects.contains(Dead)
   }
 
-  def selectTarget(potentialTargets: Seq[Character]): Character = {
-    targetSelector.select(party, potentialTargets)
+  def selectTargetAndAction(potentialTargets: Seq[Character]): (Character, CombatAction) = {
+    actionLogic.selectActionAndTarget(potentialTargets, party)
   }
 
 }
 
+
 object Character {
   def apply(name: String,
-            actions: Seq[CombatAction],
             stats: Stats,
             currentHealth: Int,
             statusEffects: Seq[StatusEffect],
-            targetSelector: TargetSelector,
+            actionLogic: ActionLogic,
             party: Party): Character = {
     val effects = if (currentHealth <= 0) statusEffects :+ Dead else statusEffects
-    new Character(name, actions, stats, currentHealth: Int, effects, targetSelector, party)
+    new Character(name, stats, currentHealth: Int, effects, actionLogic, party)
   }
 
   def apply(name: String,
-            actions: Seq[CombatAction],
             stats: Stats,
+            actionLogic: ActionLogic,
             party: Party): Character = {
-    new Character(name, actions, stats, stats.maxHealth: Int, Seq(), RandomTargetSelector, party)
+    new Character(name, stats, stats.maxHealth: Int, Seq(), actionLogic, party)
   }
 }
 
 case class Stats(maxHealth: Int, initiative: Int, attack: Int = 50)
 
 case class Party(name: String)
-
-
-//could use a type class to add attack selector to the actual character
-object AttackSelector {
-  def select(character: Character): CombatAction = {
-    if (character.actions.size < 1) {
-      throw new RuntimeException("Character has no actions!")
-    }
-    character.actions(new Random().nextInt(character.actions.length))
-  }
-}
 
 trait StatusEffect
 object Dead extends StatusEffect

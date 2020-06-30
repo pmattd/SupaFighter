@@ -19,7 +19,7 @@ object FirstTargetSelector extends TargetSelector {
   }
 }
 
-object RandomTargetSelector extends TargetSelector {
+object RandomOpponentSelector extends TargetSelector {
   def select(characterParty: Party, participants: Seq[Character]): Character = {
     val potentialTargets = aliveEnemy(characterParty, participants)
     potentialTargets(new Random().nextInt(potentialTargets.length))

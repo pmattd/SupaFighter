@@ -17,17 +17,17 @@ object CombatEncounter {
     val activeCharacter = combatState.activeCharacter
 
     //this should be on character
-    val selectedAction = AttackSelector.select(activeCharacter)
+    //val selectedAction = AttackSelector.select(activeCharacter)
 
     //select target
-    val target = activeCharacter.selectTarget(combatState.participants)
+    val targetAndAction = activeCharacter.selectTargetAndAction(combatState.participants)
 
     //resolve the attack
     val updatedTargets = if (AttackResolver.rollToHit(activeCharacter.stats.attack)) {
-      println(s"${activeCharacter.name} attacks ${target.name} ")
-      AttackResolver.resolve(target, selectedAction)
+      println(s"${activeCharacter.name} attacks ${targetAndAction._1.name} ")
+      AttackResolver.resolve(targetAndAction._1, targetAndAction._2)
     } else {
-      println(s"${activeCharacter.name} attacks ${target.name} and misses!")
+      println(s"${activeCharacter.name} attacks ${targetAndAction._1.name} and misses!")
       Seq[(Character, Character)]()
     }
 

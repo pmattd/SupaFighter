@@ -5,8 +5,9 @@ package object combat {
   val partyB: Party = Party("B")
 
   val attack1: DirectDamage = DirectDamage(3)
+  val attackerLogic = new AttackerLogic(attack1)
 
-  val bob: Character = Character("bob", Seq(attack1), Stats(5, 2), partyA)
-  val sam: Character = Character("sam", Seq(attack1), Stats(5, 2), partyA)
-  val jim: Character = Character("jim", Seq(attack1), Stats(5, 3), Party("B"))
+  val bob: Character = Character("bob", Stats(5, 2), attackerLogic, partyA)
+  val sam: Character = Character("sam", Stats(5, 2), attackerLogic, partyA)
+  val jim: Character = Character("jim", Stats(5, 3), attackerLogic, Party("B"))
 }

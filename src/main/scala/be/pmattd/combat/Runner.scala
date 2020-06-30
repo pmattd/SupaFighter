@@ -6,11 +6,13 @@ object Runner extends App {
   val partyB = Party("B")
 
   val attack1 = DirectDamage(3)
+  val attackerLogic = new AttackerLogic(attack1)
 
-  val bob = Character("bob", Seq(attack1), Stats(5, 3), partyA)
-  val jim = Character("jim", Seq(attack1), Stats(5, 4), partyA)
-  val gornag = Character("gornag", Seq(attack1), Stats(7, 4), partyB)
-  val bilzomas = Character("bilzomas", Seq(attack1), Stats(5, 4), partyB)
+
+  val bob = Character("bob", Stats(5, 3), attackerLogic, partyA)
+  val jim = Character("jim", Stats(5, 4), attackerLogic, partyA)
+  val gornag = Character("gornag", Stats(7, 4), attackerLogic, partyB)
+  val bilzomas = Character("bilzomas", Stats(5, 4), attackerLogic, partyB)
 
   val state = CombatState(Seq(bob, gornag, jim, bilzomas))
   state.showInitiativeSequence().foreach(p => println(p._1.name, p._2))
