@@ -25,13 +25,24 @@ class CombatEncounterStateTest extends org.scalatest.FunSuite with Matchers {
   }
 
   test("update combat next person in initiative queue") {
-    val newJim = jim.copy(stats = Stats(5, 3))
+    val newJim = jim.copy(currentHealth = 1)
     val state = CombatState(Seq(bob, jim))
-    state.activeCharacter should equal(bob)
     val newState = state.updateState(Seq((jim, newJim)))
 
     newState.activeCharacter should equal(newJim)
-    newState.activeCharacter.stats.maxHealth should equal(5)
+    newState.activeCharacter.currentHealth should equal(1)
+    newState.participants.size should equal(2)
   }
+
+
+  test("update state - no character updates just updates active character") {
+
+    val state = CombatState(Seq(bob, jim))
+    val newState = state.updateState(Seq())
+
+    newState.activeCharacter should equal(jim)
+    newState.participants.size should equal(2)
+  }
+
 
 }
