@@ -16,9 +16,6 @@ object CombatEncounter {
   def doTurn(combatState: CombatState): CombatState = {
     val activeCharacter = combatState.activeCharacter
 
-    //this should be on character
-    //val selectedAction = AttackSelector.select(activeCharacter)
-
     //select target
     val targetAndAction = activeCharacter.selectTargetAndAction(combatState.participants)
 
@@ -41,7 +38,7 @@ object CombatEncounter {
 class CombatState(val participants: Seq[Character],
                   initiativeSequence: Seq[(Character, Int)]) {
 
-  val activeCharacter: Character = {
+  def activeCharacter: Character = {
     initiativeSequence.head._1
   }
 
@@ -56,14 +53,14 @@ class CombatState(val participants: Seq[Character],
       .size == 1
   }
 
+
   def updateState(updatedCharacters: Seq[(Character, Character)]): CombatState = {
 
-    //todo improve
     val newParticipants = participants.map(c => {
       val uc = updatedCharacters.find(p => p._1 == c)
       uc match {
         case None => c
-        case Some(u) => u._2
+        case Some(update) => update._2
       }
     })
 

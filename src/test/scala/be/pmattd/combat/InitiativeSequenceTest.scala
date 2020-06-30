@@ -21,4 +21,10 @@ class InitiativeSequenceTest extends org.scalatest.FunSuite with Matchers {
     sequence.tail.head._2 should equal(301)
   }
 
+  test("trying to get an initiative sequence of an empty list throws exception") {
+    assertThrows[RuntimeException] {
+      InitiativeSequence.defineOrder(Seq(), 1)
+    }
+  }
+
 }

@@ -12,14 +12,14 @@ class HealerLogic(healAction: CombatAction, attackAction: CombatAction) extends 
   def selectActionAndTarget(participants: Seq[Character],
                             characterParty: Party): (Character, CombatAction) = {
 
-    val toHeal = participants
+    val potentialHealTargets = participants
       .filter(p => p.party != characterParty)
       .filter(p => p.currentHealth < p.stats.maxHealth / 2)
 
-    if (toHeal.isEmpty) {
+    if (potentialHealTargets.isEmpty) {
       (RandomOpponentSelector.select(characterParty, participants), attackAction)
     } else {
-      (toHeal.head, healAction)
+      (potentialHealTargets.head, healAction)
     }
   }
 }
