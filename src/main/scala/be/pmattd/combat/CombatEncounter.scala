@@ -13,6 +13,7 @@ object CombatEncounter {
     loop(combatState, doTurn, (combatState: CombatState) => combatState.combatOver())
   }
 
+
   def doTurn(combatState: CombatState): CombatState = {
     val activeCharacter = combatState.activeCharacter
 

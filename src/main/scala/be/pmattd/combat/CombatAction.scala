@@ -3,7 +3,6 @@ package be.pmattd.combat
 
 trait CombatAction {
   def resolve(target: PlayerCharacter): PlayerCharacter
-
   val name: String
 }
 
