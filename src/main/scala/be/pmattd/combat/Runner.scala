@@ -9,19 +9,17 @@ object Runner extends App {
 
   val attack1 = DirectDamage(3)
   val buff = Heal(5)
-  val weightedAttack = WeightedAction(Weighting(new TargetHealthCriteria(10), 10, 5), attack1)
-  val weightedBuff = WeightedAction(Weighting(new TargetHealthPercentageCriteria(50), 15, 1), buff)
+  val weightedAttack = CriteriaWeightedAction(Weighting(new TargetHealthCriteria(10), 10, 5), attack1)
+  val weightedBuff = CriteriaWeightedAction(Weighting(new TargetHealthPercentageCriteria(50), 15, 1), buff)
 
 
   val attackDecisionMaker = new WeightedDecisionMaker(
     Seq(weightedAttack), Seq()
   )
 
-
   val healerDecisionMaker = new WeightedDecisionMaker(
     Seq(weightedAttack), Seq(weightedBuff)
   )
-
 
   val bob = PlayerCharacter("bob", Stats(5, 3), attackDecisionMaker, partyA)
   val jim = PlayerCharacter("jim", Stats(5, 4), attackDecisionMaker, partyA)
@@ -39,7 +37,7 @@ object Runner extends App {
 
   //todo
   /*
-    3. add heal logic back to decision maker
+    1. add better target selection logic for chosing between potential targets
     4. simplify creation of decision maker
     2. allow user input to select targets + attacks
     3. include area effect attacks
