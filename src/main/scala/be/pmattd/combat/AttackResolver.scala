@@ -8,7 +8,7 @@ object AttackResolver {
     new Random().nextInt(100) <= hitChance
   }
 
-  def resolve(target: Character, combatAction: CombatAction): Seq[(Character, Character)] = {
+  def resolve(combatAction: CombatAction, target: PlayerCharacter): Seq[(PlayerCharacter, PlayerCharacter)] = {
     Seq((target, combatAction.resolve(target)))
   }
 

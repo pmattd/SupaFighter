@@ -9,23 +9,23 @@ object CombatEncounter {
     if (cond(a)) a else loop(f(a), f, cond)
 
 
-  def resolve(partyManger: CombatState): CombatState = {
-    loop(partyManger, doTurn, (partyManger: CombatState) => partyManger.combatOver())
+  def resolve(combatState: CombatState): CombatState = {
+    loop(combatState, doTurn, (combatState: CombatState) => combatState.combatOver())
   }
 
   def doTurn(combatState: CombatState): CombatState = {
     val activeCharacter = combatState.activeCharacter
 
     //select target
-    val targetAndAction = activeCharacter.selectTargetAndAction(combatState.participants)
+    val targetAndAction = activeCharacter.selectTargetAndAction(combatState)
 
     //resolve the attack
     val updatedTargets = if (AttackResolver.rollToHit(activeCharacter.stats.attack)) {
-      println(s"${activeCharacter.name} attacks ${targetAndAction._1.name} ")
+      println(s"${activeCharacter.name} ${targetAndAction._1.name} ${targetAndAction._2.name} ")
       AttackResolver.resolve(targetAndAction._1, targetAndAction._2)
     } else {
-      println(s"${activeCharacter.name} attacks ${targetAndAction._1.name} and misses!")
-      Seq[(Character, Character)]()
+      println(s"${activeCharacter.name} ${targetAndAction._1.name} ${targetAndAction._2.name} and misses!")
+      Seq[(PlayerCharacter, PlayerCharacter)]()
     }
 
     //generate new state
@@ -35,14 +35,14 @@ object CombatEncounter {
 
 }
 
-class CombatState(val participants: Seq[Character],
-                  initiativeSequence: Seq[(Character, Int)]) {
+class CombatState(val participants: Seq[PlayerCharacter],
+                  initiativeSequence: Seq[(PlayerCharacter, Int)]) {
 
-  def activeCharacter: Character = {
+  def activeCharacter: PlayerCharacter = {
     initiativeSequence.head._1
   }
 
-  def showInitiativeSequence(): Seq[(Character, Int)] = {
+  def showInitiativeSequence(): Seq[(PlayerCharacter, Int)] = {
     initiativeSequence.take(10)
   }
 
@@ -54,7 +54,7 @@ class CombatState(val participants: Seq[Character],
   }
 
 
-  def updateState(updatedCharacters: Seq[(Character, Character)]): CombatState = {
+  def updateState(updatedCharacters: Seq[(PlayerCharacter, PlayerCharacter)]): CombatState = {
 
     val newParticipants = participants.map(c => {
       val uc = updatedCharacters.find(p => p._1 == c)
@@ -72,7 +72,7 @@ class CombatState(val participants: Seq[Character],
 }
 
 object CombatState {
-  def apply(participants: Seq[Character]): CombatState = new CombatState(participants, InitiativeSequence.defineOrder(participants, 1))
+  def apply(participants: Seq[PlayerCharacter]): CombatState = new CombatState(participants, InitiativeSequence.defineOrder(participants, 1))
 }
 
 

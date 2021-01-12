@@ -1,8 +1,9 @@
 package be.pmattd.combat
 
+import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
-class CombatEncounterStateTest extends org.scalatest.FunSuite with Matchers {
+class CombatEncounterStateTest extends AnyFunSuite with Matchers {
 
   test("only one character left - combat over") {
     val state = CombatState(Seq(bob))
