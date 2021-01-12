@@ -4,18 +4,26 @@ import be.pmattd.combat.{CombatAction, PlayerCharacter}
 
 
 trait Weighting {
-  def getWeighting(target: PlayerCharacter): Int
+  def applyWeighting(target: PlayerCharacter): Int
 }
 
 class BooleanWeighting(criteria: BooleanCriteria, trueValue: Int, falseValue: Int) extends Weighting {
-  def getWeighting(target: PlayerCharacter) = {
+  def applyWeighting(target: PlayerCharacter) = {
     if (criteria.evaluate(target)) trueValue else falseValue
   }
 }
 
+object Weighting {
+  def apply(criteria: BooleanCriteria, trueValue: Int, falseValue: Int): Weighting = new BooleanWeighting(criteria, trueValue, falseValue)
+}
+
 class WeightedAction(weighting: Weighting, combatAction: CombatAction) {
 
-  def getWeightedAction(target: PlayerCharacter): (Int, CombatAction) = {
-    (weighting.getWeighting(target), combatAction)
+  def applyWeightingToTarget(target: PlayerCharacter): (Int, CombatAction) = {
+    (weighting.applyWeighting(target), combatAction)
   }
+}
+
+object WeightedAction {
+  def apply(weighting: Weighting, combatAction: CombatAction): WeightedAction = new WeightedAction(weighting, combatAction)
 }

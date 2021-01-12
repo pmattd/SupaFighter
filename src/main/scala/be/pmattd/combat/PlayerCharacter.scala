@@ -25,7 +25,7 @@ case class PlayerCharacter(name: String,
   }
 
   def selectTargetAndAction(combatState: CombatState): (CombatAction, PlayerCharacter) = {
-    decisionMaker.makeDecision(combatState, this)
+    decisionMaker.makeDecision(combatState.participants, this)
   }
 }
 

@@ -12,3 +12,9 @@ class TargetHealthCriteria(limit: Int) extends BooleanCriteria {
     target.currentHealth < limit
   }
 }
+
+class TargetHealthPercentageCriteria(percentage: Int) extends BooleanCriteria {
+  def evaluate(target: PlayerCharacter): Boolean = {
+    target.currentHealth <= target.stats.maxHealth * percentage / 100
+  }
+}
