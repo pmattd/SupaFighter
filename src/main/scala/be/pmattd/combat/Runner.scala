@@ -1,6 +1,6 @@
 package be.pmattd.combat
 
-import be.pmattd.combat.ui.{UI, UIState, UiChoice}
+import be.pmattd.combat.ui.{UI, UIState}
 
 //todo
 /*
@@ -17,9 +17,7 @@ object Runner extends App {
 
   val gameState = Initializer.Setup()
 
-
-  val options = Seq(UiChoice("start already!", 1))
-  val ui = UI.startup(UIState(gameState, "welcome!"))
+  val ui = UI.run(UIState(gameState))
 
   //gameState.showInitiativeSequence().foreach(p => println(p._1.name, p._2))
 

@@ -1,9 +1,7 @@
 package be.pmattd.combat.ui
 
 object UI {
-
-
-  def startup(uiState: UIState) = {
+  def run(uiState: UIState) = {
     uiState.show
 
     io.Source.stdin.getLines().foldLeft(uiState)((currentState, newLine) => {
@@ -12,9 +10,4 @@ object UI {
       state
     })
   }
-
-
-  //SelectAttack
-  //SelectTarget
-
 }

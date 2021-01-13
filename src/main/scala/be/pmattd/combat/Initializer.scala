@@ -1,5 +1,6 @@
 package be.pmattd.combat
 
+import be.pmattd.combat.gamestate.{GameState, InitialMenuState}
 import be.pmattd.combat.logic._
 
 object Initializer {
@@ -29,7 +30,8 @@ object Initializer {
     val bilzomas = PlayerCharacter("bilzomas", Stats(5, 4), attackDecisionMaker, partyB)
 
 
-    new GameState(Seq(bob, gornag, jim, bilzomas), CombatState(Seq(bob, gornag, jim, bilzomas)))
+    new InitialMenuState
+    //new GameController(Seq(bob, gornag, jim, bilzomas), CombatState(Seq(bob, gornag, jim, bilzomas)))
 
   }
 }

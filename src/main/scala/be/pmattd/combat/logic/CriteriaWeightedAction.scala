@@ -5,15 +5,16 @@ import be.pmattd.combat.{CombatAction, PlayerCharacter}
 
 trait WeightedAction {
   def applyWeightingToTarget(target: PlayerCharacter): (Int, CombatAction)
+  val combatAction: CombatAction
 }
 
-class CriteriaWeightedAction(weighting: Weighting, combatAction: CombatAction) extends WeightedAction {
+class CriteriaWeightedAction(weighting: Weighting, val combatAction: CombatAction) extends WeightedAction {
   def applyWeightingToTarget(target: PlayerCharacter): (Int, CombatAction) = {
     (weighting.applyWeighting(target), combatAction)
   }
 }
 
-class FixedWeightedAction(value: Int, combatAction: CombatAction) extends WeightedAction {
+class FixedWeightedAction(value: Int, val combatAction: CombatAction) extends WeightedAction {
   def applyWeightingToTarget(target: PlayerCharacter): (Int, CombatAction) = {
     (value, combatAction)
   }

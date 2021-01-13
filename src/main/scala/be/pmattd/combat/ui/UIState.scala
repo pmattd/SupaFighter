@@ -1,55 +1,48 @@
 package be.pmattd.combat.ui
 
-import be.pmattd.combat.GameState
+import be.pmattd.combat.gamestate.GameState
 
-import scala.sys.exit
-
-class UIState(val gameState: GameState, val output: String) {
-
+class UIState(val gameState: GameState) {
 
   def selectOption(newLine: String): UIState = {
-
-    if (newLine == "quit") {
-      exit(0)
-    }
-    toInt(newLine) match {
-      case Some(x) if (gameState.getOptions().size >= x && x > 0) => UIState(gameState, s"$x is a good choice!")
-      case _ => UIState(gameState, s"invalid Option ${newLine} selected")
-    }
-
-    //val selectedOption = options(optionIndexSelected)
-
+    new UIState(gameState.applyChoice(newLine))
   }
-
-  def toInt(s: String): Option[Int] = {
-    try {
-      Some(s.toInt)
-    } catch {
-      case e: Exception => None
-    }
-  }
-
 
   def show: Unit = {
-    println(output)
-    gameState.getOptions().foreach(x => println(x.display))
-
+    println(gameState.text)
+    gameState.choices().foreach(x => println(x.display))
     print(UIState.SHELL_TOKEN)
   }
-
 }
 
 object UIState {
   val SHELL_TOKEN = "$ "
 
-  def apply(gameState: GameState, output: String = ""): UIState = {
-    new UIState(gameState, output)
+  def apply(gameState: GameState): UIState = {
+    new UIState(gameState)
   }
 }
 
-case class UiChoice(name: String, index: Int) {
+
+//could make a container class for the display
+//menu
+//free text
+//the validation of input could be done here along with always available menu options such as quit etc.
+
+
+trait UiInputExpected {
+  def display(): String
+}
+
+case class UiMenuChoice(index: Int, name: String) extends UiInputExpected {
   def display(): String = {
     s"($index) $name"
+  }
+}
+
+case class UiFreeText(name: String) extends UiInputExpected {
+  def display(): String = {
+    s"$name"
   }
 }
 

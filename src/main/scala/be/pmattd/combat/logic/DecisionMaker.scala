@@ -5,6 +5,8 @@ import be.pmattd.combat.{CombatAction, Party, PlayerCharacter}
 
 trait DecisionMaker {
   def makeDecision(participants: Seq[PlayerCharacter], character: PlayerCharacter): (CombatAction, PlayerCharacter)
+
+  def getActions(): Seq[CombatAction]
 }
 
 
@@ -19,6 +21,7 @@ class Participants(characters: Seq[PlayerCharacter]) {
 }
 
 class WeightedDecisionMaker(attacks: Seq[WeightedAction], buffs: Seq[WeightedAction]) extends DecisionMaker {
+
 
   override def makeDecision(participants: Seq[PlayerCharacter], character: PlayerCharacter): (CombatAction, PlayerCharacter) = {
 
@@ -42,6 +45,13 @@ class WeightedDecisionMaker(attacks: Seq[WeightedAction], buffs: Seq[WeightedAct
     weightedActions
   }
 
+  override def getActions(): Seq[CombatAction] = attacks.map(x => x.combatAction)
+}
+
+class HumanDecisionMaker(attacks: Seq[CombatAction]) extends DecisionMaker {
+  override def makeDecision(participants: Seq[PlayerCharacter], character: PlayerCharacter): (CombatAction, PlayerCharacter) = ???
+
+  override def getActions(): Seq[CombatAction] = attacks
 }
 
 
