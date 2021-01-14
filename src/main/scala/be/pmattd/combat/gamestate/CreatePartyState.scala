@@ -1,16 +1,16 @@
 package be.pmattd.combat.gamestate
 
+import be.pmattd.combat._
 import be.pmattd.combat.logic.HumanDecisionMaker
 import be.pmattd.combat.ui.UiMenuChoice
-import be.pmattd.combat._
 
-class CreatePartyState() extends GameState {
+class CreatePartyState() extends MenuChoiceState {
 
   override val text = "Time to create your party:"
   val choices: Seq[UiMenuChoice] = Seq(UiMenuChoice(1, "Alphonso the Warrior"), UiMenuChoice(2, "Garolunos the Healer"))
 
-  def applyChoice(choice: String): GameState = {
-    parseChoice(choice) match {
+  override def executeInput(choice: Int): GameState = {
+    choice match {
       case 1 => new InGameState(createWarrior(), "In game")
       case 2 => new InGameState(createHealer(), "In game")
     }

@@ -5,12 +5,13 @@ import be.pmattd.combat.gamestate.GameState
 class UIState(val gameState: GameState) {
 
   def selectOption(newLine: String): UIState = {
-    new UIState(gameState.applyChoice(newLine))
+    new UIState(gameState.applyInput(newLine))
   }
 
   def show: Unit = {
-    println(gameState.text)
-    gameState.choices().foreach(x => println(x.display))
+    val display = gameState.toDisplay()
+    println(display.description)
+    display.menuOptions.foreach(x => println(x.display))
     print(UIState.SHELL_TOKEN)
   }
 }
