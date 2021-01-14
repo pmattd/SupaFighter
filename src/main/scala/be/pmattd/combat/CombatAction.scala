@@ -2,18 +2,18 @@ package be.pmattd.combat
 
 
 trait CombatAction {
-  def resolve(target: PlayerCharacter): PlayerCharacter
+  def resolve(target: Entity): Entity
   val name: String
 }
 
 case class DirectDamage(damage: Int) extends CombatAction {
   val name = "attacks"
 
-  override def resolve(target: PlayerCharacter): PlayerCharacter = target.applyDamage(damage)
+  override def resolve(target: Entity): Entity = target.applyDamage(damage)
 }
 
 case class Heal(amount: Int) extends CombatAction {
   val name = "heals"
 
-  override def resolve(target: PlayerCharacter): PlayerCharacter = target.applyDamage(-amount)
+  override def resolve(target: Entity): Entity = target.applyDamage(-amount)
 }

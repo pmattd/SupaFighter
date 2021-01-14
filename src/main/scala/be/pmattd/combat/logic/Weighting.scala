@@ -1,9 +1,9 @@
 package be.pmattd.combat.logic
 
-import be.pmattd.combat.PlayerCharacter
+import be.pmattd.combat.Entity
 
 trait Weighting {
-  def applyWeighting(target: PlayerCharacter): Int
+  def applyWeighting(target: Entity): Int
 }
 
 object Weighting {
@@ -11,7 +11,7 @@ object Weighting {
 }
 
 class BooleanWeighting(criteria: BooleanCriteria, trueValue: Int, falseValue: Int) extends Weighting {
-  def applyWeighting(target: PlayerCharacter): Int = {
+  def applyWeighting(target: Entity): Int = {
     if (criteria.evaluate(target)) trueValue else falseValue
   }
 }

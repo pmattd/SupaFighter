@@ -1,10 +1,10 @@
 package be.pmattd.combat.gamestate
 
-import be.pmattd.combat.PlayerCharacter
+import be.pmattd.combat.Entity
 import be.pmattd.combat.ui.UiMenuChoice
 
 
-class InGameState(playerParty: Seq[PlayerCharacter], displayText: String) extends MenuChoiceState {
+class InGameState(playerParty: Seq[Entity], displayText: String) extends MenuChoiceState {
 
   override def text: String = displayText
 

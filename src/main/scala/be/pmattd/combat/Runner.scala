@@ -4,10 +4,14 @@ import be.pmattd.combat.ui.{UI, UIState}
 
 //todo
 /*
-  1. logic to apply debuff to strongest target.
+// how about a zombie theme in an appartment block like sweet home.
+  1. join up the ui to the combat
   2. allow user input to select targets + attacks
-  3. include area effect attacks
-  5. include buffs / debuffs,
+  2. create some default enemies with some basic attacks
+  3. create some temporary attack buffs
+  4. some area effect attacks
+  5. write out some better logic for selecting targets
+  6. target selection based on strongest/weakest, perhaps consider an action and then value the action against all targets
   6. dodge/defend.
   7. text should come from a config file.
  */

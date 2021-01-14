@@ -3,7 +3,7 @@ package be.pmattd.combat
 import org.scalatest.matchers.should.Matchers
 
 
-class PlayerCharacterTest extends org.scalatest.FunSuite with Matchers {
+class EntityTest extends org.scalatest.FunSuite with Matchers {
 
   test("at 0 health status effect dead is applied") {
 

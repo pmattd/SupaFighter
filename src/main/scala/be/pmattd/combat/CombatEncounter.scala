@@ -26,7 +26,7 @@ object CombatEncounter {
       AttackResolver.resolve(targetAndAction._1, targetAndAction._2)
     } else {
       println(s"${activeCharacter.name} ${targetAndAction._1.name} ${targetAndAction._2.name} and misses!")
-      Seq[(PlayerCharacter, PlayerCharacter)]()
+      Seq[(Entity, Entity)]()
     }
 
     //generate new state
@@ -36,14 +36,14 @@ object CombatEncounter {
 
 }
 
-class CombatState(val participants: Seq[PlayerCharacter],
-                  initiativeSequence: Seq[(PlayerCharacter, Int)]) {
+class CombatState(val participants: Seq[Entity],
+                  initiativeSequence: Seq[(Entity, Int)]) {
 
-  def activeCharacter: PlayerCharacter = {
+  def activeCharacter: Entity = {
     initiativeSequence.head._1
   }
 
-  def showInitiativeSequence(): Seq[(PlayerCharacter, Int)] = {
+  def showInitiativeSequence(): Seq[(Entity, Int)] = {
     initiativeSequence.take(10)
   }
 
@@ -55,7 +55,7 @@ class CombatState(val participants: Seq[PlayerCharacter],
   }
 
 
-  def updateState(updatedCharacters: Seq[(PlayerCharacter, PlayerCharacter)]): CombatState = {
+  def updateState(updatedCharacters: Seq[(Entity, Entity)]): CombatState = {
 
     val newParticipants = participants.map(c => {
       val uc = updatedCharacters.find(p => p._1 == c)
@@ -73,7 +73,7 @@ class CombatState(val participants: Seq[PlayerCharacter],
 }
 
 object CombatState {
-  def apply(participants: Seq[PlayerCharacter]): CombatState = new CombatState(participants, InitiativeSequence.defineOrder(participants, 1))
+  def apply(participants: Seq[Entity]): CombatState = new CombatState(participants, InitiativeSequence.defineOrder(participants, 1))
 }
 
 

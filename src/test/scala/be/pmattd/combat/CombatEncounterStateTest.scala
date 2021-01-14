@@ -26,7 +26,7 @@ class CombatEncounterStateTest extends AnyFunSuite with Matchers {
   }
 
   test("update combat next person in initiative queue") {
-    val newJim = attackerJim.copy(currentHealth = 1)
+    val newJim = attackerJim.applyDamage(4)
     val state = CombatState(Seq(healerBob, attackerJim))
     val newState = state.updateState(Seq((attackerJim, newJim)))
 

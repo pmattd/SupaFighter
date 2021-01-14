@@ -15,7 +15,7 @@ package object combat {
   val attackDecisionMaker = new WeightedDecisionMaker(Seq(fixedAttack), Seq())
   val healerDecisionMaker = new WeightedDecisionMaker(Seq(fixedAttack), Seq(fixedBuff)
   )
-  val healerBob: PlayerCharacter = PlayerCharacter("bob", Stats(5, 2), healerDecisionMaker, partyA)
-  val attackerSam: PlayerCharacter = PlayerCharacter("sam", Stats(5, 2), attackDecisionMaker, partyA)
-  val attackerJim: PlayerCharacter = PlayerCharacter("jim", Stats(5, 3), attackDecisionMaker, partyB)
+  val healerBob: Entity = PlayerCharacter("bob", Stats(5, 2), healerDecisionMaker, partyA)
+  val attackerSam: Entity = PlayerCharacter("sam", Stats(5, 2), attackDecisionMaker, partyA)
+  val attackerJim: Entity = PlayerCharacter("jim", Stats(5, 3), attackDecisionMaker, partyB)
 }

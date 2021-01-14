@@ -2,7 +2,7 @@ package be.pmattd.combat
 
 
 object InitiativeSequence {
-  def defineOrder(characters: Seq[PlayerCharacter], start: Int): Seq[(PlayerCharacter, Int)] = {
+  def defineOrder(characters: Seq[Entity], start: Int): Seq[(Entity, Int)] = {
     if (characters.isEmpty)
       throw new RuntimeException("trying to define initiative sequence of an empty list")
 

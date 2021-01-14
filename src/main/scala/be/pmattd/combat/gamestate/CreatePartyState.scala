@@ -16,12 +16,12 @@ class CreatePartyState() extends MenuChoiceState {
     }
   }
 
-  def createWarrior(): Seq[PlayerCharacter] = {
+  def createWarrior(): Seq[Entity] = {
     val playerCharacter = PlayerCharacter("Alfonso", Stats(20, 5, 60), 60, Seq(), new HumanDecisionMaker(Seq(DirectDamage(6))), Party("player party"))
     Seq(playerCharacter)
   }
 
-  def createHealer(): Seq[PlayerCharacter] = {
+  def createHealer(): Seq[Entity] = {
     val playerCharacter = PlayerCharacter("Garolunos", Stats(20, 5, 60), 60, Seq(), new HumanDecisionMaker(Seq(DirectDamage(6), Heal(7))), Party("player party"))
     Seq(playerCharacter)
   }
