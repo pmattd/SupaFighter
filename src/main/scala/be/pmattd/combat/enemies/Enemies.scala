@@ -2,7 +2,7 @@ package be.pmattd.combat.enemies
 
 import be.pmattd.combat.enemies.BasicValues.{basicDecisionMaker, enemyParty}
 import be.pmattd.combat.logic.{FixedWeightedAction, WeightedDecisionMaker}
-import be.pmattd.combat.{DirectDamage, Party, PlayerCharacter, Stats}
+import be.pmattd.combat.{DirectDamage, NPC, Party, Stats}
 
 
 object BasicValues {
@@ -12,5 +12,5 @@ object BasicValues {
 }
 
 object Enemies {
-  val bandit = PlayerCharacter(name = "bandit", stats = Stats(10, 5, 50), basicDecisionMaker, enemyParty)
+  val bandit = NPC(name = "bandit", stats = Stats(10, 5, 50), basicDecisionMaker, enemyParty)
 }

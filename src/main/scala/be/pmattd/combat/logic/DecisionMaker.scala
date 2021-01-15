@@ -1,7 +1,7 @@
 package be.pmattd.combat.logic
 
 import be.pmattd.combat.ParticipantsImplicits._
-import be.pmattd.combat.{CombatAction, Entity, Party}
+import be.pmattd.combat.{CombatAction, Entity}
 
 import scala.util.Random
 
@@ -12,18 +12,7 @@ trait DecisionMaker {
 }
 
 
-class Participants(characters: Seq[Entity]) {
-  def getAliveMembersOfParty(party: Party): Seq[Entity] = {
-    characters.filter(p => p.party == party && p.alive())
-  }
-
-  def getAliveOpponents(party: Party): Seq[Entity] = {
-    characters.filter(p => p.party != party && p.alive())
-  }
-}
-
 class WeightedDecisionMaker(attacks: Seq[WeightedAction], buffs: Seq[WeightedAction]) extends DecisionMaker {
-
 
   override def makeDecision(participants: Seq[Entity], character: Entity): (CombatAction, Entity) = {
 
@@ -56,11 +45,4 @@ class WeightedDecisionMaker(attacks: Seq[WeightedAction], buffs: Seq[WeightedAct
 
   override def getActions(): Seq[CombatAction] = attacks.map(x => x.combatAction)
 }
-
-class HumanDecisionMaker(attacks: Seq[CombatAction]) extends DecisionMaker {
-  override def makeDecision(participants: Seq[Entity], character: Entity): (CombatAction, Entity) = ???
-
-  override def getActions(): Seq[CombatAction] = attacks
-}
-
 

@@ -8,7 +8,7 @@ trait WeightedAction {
   val combatAction: CombatAction
 }
 
-class CriteriaWeightedAction(weighting: Weighting, val combatAction: CombatAction) extends WeightedAction {
+class CalculatedWeightedAction(weighting: WeightingCalculation, val combatAction: CombatAction) extends WeightedAction {
   def applyWeightingToTarget(target: Entity): (Int, CombatAction) = {
     (weighting.applyWeighting(target), combatAction)
   }
@@ -20,6 +20,6 @@ class FixedWeightedAction(value: Int, val combatAction: CombatAction) extends We
   }
 }
 
-object CriteriaWeightedAction {
-  def apply(weighting: Weighting, combatAction: CombatAction): CriteriaWeightedAction = new CriteriaWeightedAction(weighting, combatAction)
+object CalculatedWeightedAction {
+  def apply(weighting: WeightingCalculation, combatAction: CombatAction): CalculatedWeightedAction = new CalculatedWeightedAction(weighting, combatAction)
 }

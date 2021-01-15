@@ -1,7 +1,6 @@
 package be.pmattd.combat.gamestate
 
 import be.pmattd.combat._
-import be.pmattd.combat.logic.HumanDecisionMaker
 import be.pmattd.combat.ui.UiMenuChoice
 
 class CreatePartyState() extends MenuChoiceState {
@@ -17,12 +16,12 @@ class CreatePartyState() extends MenuChoiceState {
   }
 
   def createWarrior(): Seq[Entity] = {
-    val playerCharacter = PlayerCharacter("Alfonso", Stats(20, 5, 60), 60, Seq(), new HumanDecisionMaker(Seq(DirectDamage(6))), Party("player party"))
+    val playerCharacter = PlayerCharacter("Alfonso", Stats(20, 5, 60), Seq(DirectDamage(6)))
     Seq(playerCharacter)
   }
 
   def createHealer(): Seq[Entity] = {
-    val playerCharacter = PlayerCharacter("Garolunos", Stats(20, 5, 60), 60, Seq(), new HumanDecisionMaker(Seq(DirectDamage(6), Heal(7))), Party("player party"))
+    val playerCharacter = PlayerCharacter("Garolunos", Stats(20, 5, 60), Seq(DirectDamage(6), Heal(7)))
     Seq(playerCharacter)
   }
 }

@@ -12,8 +12,8 @@ object Initializer {
 
     val attack1 = DirectDamage(3)
     val buff = Heal(5)
-    val weightedAttack = CriteriaWeightedAction(Weighting(new TargetHealthCriteria(10), 10, 5), attack1)
-    val weightedBuff = CriteriaWeightedAction(Weighting(new TargetHealthPercentageCriteria(50), 15, 1), buff)
+    val weightedAttack = CalculatedWeightedAction(WeightingCalculation(new TargetHealthCriteria(10), 10, 5), attack1)
+    val weightedBuff = CalculatedWeightedAction(WeightingCalculation(new TargetHealthPercentageCriteria(50), 15, 1), buff)
 
 
     val attackDecisionMaker = new WeightedDecisionMaker(
@@ -24,10 +24,10 @@ object Initializer {
       Seq(weightedAttack), Seq(weightedBuff)
     )
 
-    val bob = PlayerCharacter("bob", Stats(5, 3), attackDecisionMaker, partyA)
-    val jim = PlayerCharacter("jim", Stats(5, 4), attackDecisionMaker, partyA)
-    val gornag = PlayerCharacter("gornag", Stats(4, 4), healerDecisionMaker, partyB)
-    val bilzomas = PlayerCharacter("bilzomas", Stats(5, 4), attackDecisionMaker, partyB)
+    val bob = NPC("bob", Stats(5, 3), attackDecisionMaker, partyA)
+    val jim = NPC("jim", Stats(5, 4), attackDecisionMaker, partyA)
+    val gornag = NPC("gornag", Stats(4, 4), healerDecisionMaker, partyB)
+    val bilzomas = NPC("bilzomas", Stats(5, 4), attackDecisionMaker, partyB)
 
 
     new StartMenu
