@@ -1,10 +1,11 @@
 
 package be.pmattd.combat
 
+import be.pmattd.combat.Entity.playerParty
 import be.pmattd.combat.logic.DecisionMaker
 
 
-trait Entity {
+trait Entity extends Named {
 
   def name: String
 
@@ -35,6 +36,10 @@ trait Entity {
   }
 }
 
+object Entity {
+  val playerParty = Party("player party")
+}
+
 
 case class PlayerCharacter(name: String,
                            stats: Stats,
@@ -54,7 +59,7 @@ case class PlayerCharacter(name: String,
 
 object PlayerCharacter {
   def apply(name: String, stats: Stats, actions: Seq[CombatAction]): PlayerCharacter = {
-    PlayerCharacter(name, stats, Seq(), Party("player party"), stats.maxHealth, actions)
+    PlayerCharacter(name, stats, Seq(), playerParty, stats.maxHealth, actions)
   }
 }
 

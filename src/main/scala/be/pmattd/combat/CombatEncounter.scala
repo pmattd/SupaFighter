@@ -1,5 +1,7 @@
 package be.pmattd.combat
 
+import be.pmattd.combat.Entity.playerParty
+
 import scala.annotation.tailrec
 
 object CombatEncounter {
@@ -10,17 +12,25 @@ object CombatEncounter {
 
 
   def resolve(combatState: CombatState): CombatState = {
-    loop(combatState, doTurn, (combatState: CombatState) => combatState.combatOver())
+    loop(combatState, doNPCturn, (combatState: CombatState) => combatState.combatOver())
   }
 
 
-  def doTurn(combatState: CombatState): CombatState = {
+  def doPlayerTurn(combatState: CombatState, targetAndAction: (CombatAction, Entity)): CombatState = {
     val activeCharacter = combatState.activeCharacter
+    resolveAttack(combatState, activeCharacter, targetAndAction)
+  }
 
-    //select target
-    val targetAndAction = activeCharacter.selectTargetAndAction(combatState)
+  def doNPCturn(combatState: CombatState): CombatState = {
+    val activeCharacter = combatState.activeCharacter
+    val targetAndAction: (CombatAction, Entity) = activeCharacter.selectTargetAndAction(combatState)
+    resolveAttack(combatState, activeCharacter, targetAndAction)
+  }
 
-    //resolve the attack
+  def resolveAttack(combatState: CombatState,
+                    activeCharacter: Entity,
+                    targetAndAction: (CombatAction, Entity)): CombatState = {
+
     val updatedTargets = if (AttackResolver.rollToHit(activeCharacter.stats.attack)) {
       println(s"${activeCharacter.name} ${targetAndAction._1.name} ${targetAndAction._2.name} ")
       AttackResolver.resolve(targetAndAction._1, targetAndAction._2)
@@ -29,15 +39,17 @@ object CombatEncounter {
       Seq[(Entity, Entity)]()
     }
 
-    //generate new state
     combatState.updateState(updatedTargets)
   }
-
-
 }
 
 class CombatState(val participants: Seq[Entity],
                   initiativeSequence: Seq[(Entity, Int)]) {
+
+
+  def playerPartyActive(): Boolean = {
+    activeCharacter.party == playerParty
+  }
 
   def activeCharacter: Entity = {
     initiativeSequence.head._1

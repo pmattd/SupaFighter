@@ -6,7 +6,7 @@ class CombatEncounterTest extends org.scalatest.FunSuite with Matchers {
 
   test("do turn") {
     val state = CombatState(Seq(healerBob, attackerJim))
-    val result = CombatEncounter.doTurn(state)
+    val result = CombatEncounter.doNPCturn(state)
     result.activeCharacter.name should equal(attackerJim.name)
   }
 }

@@ -41,6 +41,10 @@ case class UiMenuChoice(index: Int, name: String) extends UiInputExpected {
   }
 }
 
+object UiMenuChoice {
+  val continue = UiMenuChoice(1, "continue...")
+}
+
 case class UiFreeText(name: String) extends UiInputExpected {
   def display(): String = {
     s"$name"

@@ -1,8 +1,9 @@
 package be.pmattd.combat
 
 
-trait CombatAction {
+trait CombatAction extends Named {
   def resolve(target: Entity): Entity
+
   val name: String
 }
 

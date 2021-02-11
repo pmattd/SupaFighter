@@ -9,6 +9,8 @@ class StartMenu extends MenuChoiceState {
   override def executeInput(choice: Int): GameState = {
     choice match {
       case 1 => new CreatePartyState()
+      //case 2 => new PartyCombatState(Seq(warrior))
     }
   }
+
 }

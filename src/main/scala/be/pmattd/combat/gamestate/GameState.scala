@@ -1,5 +1,6 @@
 package be.pmattd.combat.gamestate
 
+import be.pmattd.combat.Named
 import be.pmattd.combat.ui.UiMenuChoice
 
 import scala.sys.exit
@@ -11,6 +12,14 @@ trait GameState {
 
   def applyInput(string: String): GameState
 }
+
+trait ChoiceConverter[T <: Named] {
+  def toChoices(actions: Seq[T]): Seq[(UiMenuChoice, T)] = {
+    val indexedActions = actions.zipWithIndex
+    indexedActions.map(a => (UiMenuChoice(a._2, a._1.name), a._1))
+  }
+}
+
 
 trait MenuChoiceState extends GameState {
   def text: String
